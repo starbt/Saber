@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="saber"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/xcv/CLionProjects/saber/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/xcv/CLionProjects/saber/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/xcv/CLionProjects/saber/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="saber">
+				<Option output="/home/xcv/CLionProjects/saber/cmake-build-debug/saber" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/xcv/CLionProjects/saber/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 saber"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="saber/fast">
+				<Option output="/home/xcv/CLionProjects/saber/cmake-build-debug/saber" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/xcv/CLionProjects/saber/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 saber/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/xcv/CLionProjects/saber/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/xcv/CLionProjects/saber/Channel.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/Channel.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/EventLoop.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/EventLoop.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/InetAddress.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/InetAddress.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/Poller.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/Poller.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/Socket.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/Socket.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/SocketsOps.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/SocketsOps.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/Timer.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/Timer.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/TimerQueue.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/TimerQueue.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/base/Atomic.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/base/Condition.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/base/Condition.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/base/MutexLock.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/base/MutexLock.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/base/Thread.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/base/Thread.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/base/ThreadPool.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/base/ThreadPool.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/base/TimerId.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/base/TimerId.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/base/Timestamp.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/base/Timestamp.h">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/main.cpp">
+			<Option target="saber"/>
+		</Unit>
+		<Unit filename="/home/xcv/CLionProjects/saber/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
