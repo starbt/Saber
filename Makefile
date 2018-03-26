@@ -9,28 +9,28 @@ CXXFLAGS=-std=c++0x -g
 SOURCES=$(SRC_DIR)/main.cc \
         $(SRC_DIR)/base/Timestamp.cpp \
         $(SRC_DIR)/Channel.cpp \
-		$(SRC_DIR)/EventLoop.cpp \
-		$(SRC_DIR)/InetAddress.cpp \
-		$(SRC_DIR)/Poller.cpp \
-		$(SRC_DIR)/Socket.cpp \
-		$(SRC_DIR)/SocketsOps.cpp \
-		$(SRC_DIR)/Timer.cpp \
-		$(SRC_DIR)/TimerQueue.cpp
+	$(SRC_DIR)/EventLoop.cpp \
+	$(SRC_DIR)/InetAddress.cpp \
+	$(SRC_DIR)/Poller.cpp \
+	$(SRC_DIR)/Socket.cpp \
+	$(SRC_DIR)/SocketsOps.cpp \
+	$(SRC_DIR)/Timer.cpp \
+	$(SRC_DIR)/TimerQueue.cpp
 
 OBJECTS+=$(addsuffix .o,$(basename $(SOURCES)))
 
 all:$(TARGET)
 
-$(TARGET):$(OBJECTS)
-    @echo "Linking $@"
-	@$(CXX) $< -o $@
+$(TARGET) : $(OBJECTS)
+	@echo "Linking $@"
+	$(CXX) $< -o $@
 
 %.o:%.cpp
-    @echo "compling $@"
+	@echo "compling $@"
 	@$(CXX) -c $(CXXFLAGS) $< -o $@
 
 clean:
-    @echo "Cleaning saber"
+	@echo "Cleaning saber"
 	@rm -rvf $(OBJECTS) $(TARGET) 
 
 
