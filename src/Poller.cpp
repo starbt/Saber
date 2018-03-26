@@ -1,7 +1,3 @@
-//
-// Created by xcv on 17-12-18.
-//
-
 #include <sys/poll.h>
 #include <assert.h>
 #include "Poller.h"
@@ -11,9 +7,9 @@ Poller::Poller(EventLoop *loop)
   : ownerLoop_(loop)
 { }
 
-Poller::~Poller() {
+Poller::~Poller()
+{ }
 
-}
 Timestamp Poller::poll(int timeoutMs, ChannelList *activeChannels) {
     int numEvents = ::poll(&*pollfds_.begin(), pollfds_.size(), timeoutMs);
     Timestamp now(Timestamp::now());
@@ -27,14 +23,11 @@ Timestamp Poller::poll(int timeoutMs, ChannelList *activeChannels) {
     return now;
 }
 
-void Poller::fillActiveChannels(int numEvents,
-                                ChannelList *activeChannels) const {
-    for (auto iter = pollfds_.begin();
-            iter != pollfds_.end() && numEvents > 0; ++iter) {
+void Poller::fillActiveChannels(int numEvents, ChannelList *activeChannels) {
+    for (auto iter = pollfds_.begin(); iter != pollfds_.end() && numEvents > 0; ++iter) {
         if (iter->revents > 0) {
             --numEvents;
             ChannelMap::const_iterator ch = channels_.find(iter->fd);
-            assert(ch != channels_.end());
             Channel *channel = ch->second;
             channel->setRevents(iter->revents);
             activeChannels->push_back(channel);

@@ -1,7 +1,3 @@
-//
-// Created by xcv on 17-12-18.
-//
-
 #ifndef SABER_POLLER_H
 #define SABER_POLLER_H
 
@@ -10,10 +6,7 @@
 #include <poll.h>
 #include "Channel.h"
 #include "EventLoop.h"
-#include "base/Timestamp.h"
-
-class Channel;
-class EventLoop;
+#include "base/Timestamp"
 
 struct pollfd;
 
@@ -30,7 +23,6 @@ public:
     //add or update
     void updateChannel(Channel *channel);
     void removeChannel(Channel *channel);
-
 
 private:
     void fillActiveChannels(int numEvents,
