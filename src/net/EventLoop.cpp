@@ -22,14 +22,13 @@ EventLoop::EventLoop()
   : looping_(false),
     quit_(false),
     poller_(std::make_shared<Poller>(this)),
-    timerQueue_(new TimerQueue(this)),
+    timerQueue_(new TimerQueue(this))
 { }
 
 EventLoop::~EventLoop() 
 { }
 
 void EventLoop::loop() {
-    assert(!looping_);
     looping_ = true;
     quit_ = false;
     while (!quit_) {

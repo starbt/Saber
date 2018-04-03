@@ -3,6 +3,8 @@
 
 #include "InetAddress.h"
 #include <functional> 
+#include "Channel.h"
+#include "base/Socket.h"
 
 class EventLoop;
 

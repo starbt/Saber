@@ -1,7 +1,7 @@
 #include  "Acceptor.h"
 #include  "SocketsOps.h"
 
-using namespace saber::sockets;
+using namespace saber;
 
 Acceptor::Acceptor(EventLoop *loop, const InetAddress& listenAddr)
   : loop_(loop),
@@ -17,7 +17,7 @@ void Acceptor::listen()
 {
     listenning_ = true;
     acceptSocket_.listen();
-    acceptSocket_.enableReading();
+    acceptChannel_.enableReading();
 }
 
 void Acceptor::handleRead() 

@@ -26,8 +26,7 @@ public:
     void removeChannel(Channel *channel);
 
 private:
-    void fillActiveChannels(int numEvents,
-                            ChannelList *activeChannels) const;
+    void fillActiveChannels(int numEvents,  ChannelList *activeChannels);
 
     EventLoop *ownerLoop_;
     PollFdList pollfds_;

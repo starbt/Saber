@@ -1,9 +1,9 @@
 #include <unistd.h>
 #include <iostream>
 
-#include "EventLoop.h"
-#include "Acceptor.h"
-#include "InetAddress.h"
+#include "net/EventLoop.h"
+#include "net/Acceptor.h"
+#include "base/InetAddress.h"
 
 void newConnection(int sockfd, const InetAddress& peerAddr)
 {

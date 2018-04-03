@@ -9,20 +9,23 @@ CXXFLAGS=-std=c++0x -g
 #source files
 SOURCES=$(SRC_DIR)/main.cc \
         $(SRC_DIR)/base/Timestamp.cpp \
-        $(SRC_DIR)/Channel.cpp \
-	$(SRC_DIR)/Acceptor.cpp \
-	$(SRC_DIR)/EventLoop.cpp \
-	$(SRC_DIR)/InetAddress.cpp \
-	$(SRC_DIR)/Poller.cpp \
-	$(SRC_DIR)/Socket.cpp \
-	$(SRC_DIR)/SocketsOps.cpp \
-	$(SRC_DIR)/Timer.cpp \
-	$(SRC_DIR)/TimerQueue.cpp
+        $(SRC_DIR)/net/Channel.cpp \
+        $(SRC_DIR)/net/Acceptor.cpp \
+        $(SRC_DIR)/net/EventLoop.cpp \
+	$(SRC_DIR)/net/InetAddress.cpp \
+	$(SRC_DIR)/net/Poller.cpp \
+	$(SRC_DIR)/net/Socket.cpp \
+	$(SRC_DIR)/net/SocketsOps.cpp \
+	$(SRC_DIR)/net/Timer.cpp \
+	$(SRC_DIR)/net/TimerQueue.cpp
 
 OBJECTS+=$(addsuffix .o,$(basename $(SOURCES)))
 
 # test files
-TEST_ACCEPTOR_SRC=$(TEST_DIR)/TestAcceptor.cpp
+TEST_ACCEPTOR_SRC=$(TEST_DIR)/TestAcceptor.cpp \
+        $(SRC_DIR)/net/EventLoop.cpp \
+	    $(SRC_DIR)/net/InetAddress.cpp \
+         
 TEST_ACCEPTOR_OBJECTS+=$(addsuffix .o,$(basename $(TEST_ACCEPTOR_SRC)))
 
 all:$(TARGET) $(TEST_DIR)/test_accept 

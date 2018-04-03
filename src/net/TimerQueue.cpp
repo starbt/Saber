@@ -1,14 +1,10 @@
-//
-// Created by xcv on 17-12-20.
-//
-
 #include <sys/timerfd.h>
-#include "TimerQueue.h"
-
-#include <sys/timerfd.h>
+#include <unistd.h>
 #include <memory.h>
 
-//辅助函数
+#include "TimerQueue.h"
+#include "EventLoop.h"
+
 int creadTimerfd() {
     int timerfd = ::timerfd_create(CLOCK_MONOTONIC,
                                    TFD_NONBLOCK | TFD_CLOEXEC);
@@ -42,9 +38,6 @@ void resetTimerfd(int timerfd, Timestamp expiration) {
         printf("error:resetTimerfd().\n");
     }
 }
-
-
-
 
 TimerQueue::TimerQueue(EventLoop *loop)
   : loop_(loop),
@@ -93,7 +86,7 @@ bool TimerQueue::insert(Timer *timer) {
 TimerId TimerQueue::addTimer(const TimerCallback &cb,
                              Timestamp when, double interval) {
     Timer *timer = new Timer(cb, when, interval);
-    loop_->runInLoop(std::bind(&TimerQueue::addTimerInLoop, this, timer));
+    // loop_->runInLoop(std::bind(&TimerQueue::addTimerInLoop, this, timer));
     return TimerId(timer, timer->sequence());
 }
 

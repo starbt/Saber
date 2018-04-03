@@ -25,10 +25,14 @@ public:
     void enableWriting() { events_ |= kWriteEvent;update(); }
     void disableAll() { events_ = kNoneEvent;update(); }
 
-private:
+    int fd() { return this->fd_; }
+    int events() { return this->events_; }
+    bool isNoneEvent() { return events_ == kNoneEvent; }
+
     void update();
     void remove();
 
+private:
     static const int kNoneEvent;
     static const int kReadEvent;
     static const int kWriteEvent;

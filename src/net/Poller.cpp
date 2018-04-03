@@ -1,6 +1,7 @@
 #include <sys/poll.h>
 #include <assert.h>
 #include "Poller.h"
+#include "Channel.h"
 
 
 Poller::Poller(EventLoop *loop)
