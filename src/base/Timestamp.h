@@ -9,6 +9,7 @@
 #include <cstdint>
 
 class Timestamp {
+    friend bool operator< (Timestamp lhs, Timestamp rhs);
 public:
     static const int kMicroSecondsPerSecond = 1000 * 1000;
     static Timestamp addTime(Timestamp timestamp, double seconds);
