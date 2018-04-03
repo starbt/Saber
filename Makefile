@@ -10,7 +10,6 @@ CXXFLAGS=-std=c++0x -g
 SOURCES=$(SRC_DIR)/main.cc \
         $(SRC_DIR)/base/Timestamp.cpp \
         $(SRC_DIR)/Channel.cpp \
-<<<<<<< HEAD
 		$(SRC_DIR)/Acceptor.cpp \
 		$(SRC_DIR)/EventLoop.cpp \
 		$(SRC_DIR)/InetAddress.cpp \
@@ -19,15 +18,6 @@ SOURCES=$(SRC_DIR)/main.cc \
 		$(SRC_DIR)/SocketsOps.cpp \
 		$(SRC_DIR)/Timer.cpp \
 		$(SRC_DIR)/TimerQueue.cpp
-=======
-	$(SRC_DIR)/EventLoop.cpp \
-	$(SRC_DIR)/InetAddress.cpp \
-	$(SRC_DIR)/Poller.cpp \
-	$(SRC_DIR)/Socket.cpp \
-	$(SRC_DIR)/SocketsOps.cpp \
-	$(SRC_DIR)/Timer.cpp \
-	$(SRC_DIR)/TimerQueue.cpp
->>>>>>> 0d08e711de8d37970cd22108f17d28b5479aa1b2
 
 OBJECTS+=$(addsuffix .o,$(basename $(SOURCES)))
 
