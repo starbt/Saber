@@ -7,8 +7,8 @@
 
 
 #include <functional>
-#include "base/Timestamp.h"
-#include "base/Atomic.h"
+#include "../base/Timestamp.h"
+#include "../base/Atomic.h"
 
 using namespace saber;
 

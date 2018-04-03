@@ -97,3 +97,6 @@ void TimerQueue::addTimerInLoop(Timer *timer) {
     }
 }
 
+void TimerQueue::handleRead()
+{}
+
