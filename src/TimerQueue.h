@@ -7,10 +7,12 @@
 
 
 #include <set>
-#include "EventLoop.h"
+#include "Channel.h"
 #include "base/TimerId.h"
 #include "base/Timestamp.h"
 #include "Timer.h"
+
+class EventLoop;
 
 class TimerQueue {
 public:

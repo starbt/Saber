@@ -4,13 +4,15 @@
 #include <vector>
 #include <memory>
 #include "Poller.h"
-#include "Channel.h"
 #include "TimerQueue.h"
+
+class Channel;
 
 class EventLoop {
 public:
     typedef std::vector<Channel *> ChannelList;
-//    typedef std::function<void ()> TimerCallback;
+    typedef std::function<void ()> TimerCallback;
+
     EventLoop();
     ~EventLoop();
 

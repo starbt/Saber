@@ -1,9 +1,11 @@
 #ifndef SABER_ACCEPTOR_H
 #define SABER_ACCEPTOR_H
 
-#include "EventLoop.h"
-#include "InetLoop.h"
+#include "InetAddress.h"
 #include <functional> 
+
+class EventLoop;
+
 class Acceptor 
 {
 public:

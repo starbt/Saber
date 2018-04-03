@@ -2,7 +2,8 @@
 #define SABER_CHANNEL_H
 
 #include <functional>
-#include "EventLoop.h"
+
+class EventLoop;
 
 class Channel {
 public:

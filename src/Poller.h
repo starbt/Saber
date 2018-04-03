@@ -4,10 +4,11 @@
 #include <vector>
 #include <map>
 #include <poll.h>
-#include "Channel.h"
-#include "EventLoop.h"
-#include "base/Timestamp"
 
+#include "base/Timestamp.h"
+
+class Channel;
+class EventLoop;
 struct pollfd;
 
 class Poller {
