@@ -23,6 +23,8 @@ public:
 
     int accept(InetAddress *peeraddr);
 
+    void setKeepAlive(bool on);
+
     void shutdownWrite();
 
 private:

@@ -1,7 +1,5 @@
-//
-// Created by xcv on 17-12-13.
-//
-
+#include <sys/type.h>
+#include <sys/socket.h>
 #include <memory.h>
 #include "Socket.h"
 #include "SocketsOps.h"
@@ -28,6 +26,13 @@ int Socket::accept(InetAddress *peeraddr) {
         peeraddr->setSockAddr(addr);
     }
     return connfd;
+}
+
+void Socket::setKeepAlive(bool on) 
+{
+    int optval = on ? 1 : 0;
+    ::setsockopt(sockfd_, SOL_SOCKET, SO_KEEPALIVE, &optval, 
+                 static_cast<socklen_t>(sizeof optval));
 }
 
 void Socket::shutdownWrite() {

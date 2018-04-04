@@ -20,7 +20,7 @@ void Acceptor::listen()
     acceptChannel_.enableReading();
 }
 
-void Acceptor::handleRead() 
+void Acceptor::handleRead()  
 {
     InetAddress peerAddr(0);
     int connfd = acceptSocket_.accept(&peerAddr);

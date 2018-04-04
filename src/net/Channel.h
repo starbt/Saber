@@ -19,6 +19,7 @@ public:
     void setReadCallback(const EventCallback &cb) { readCallback_ = cb; }
     void setWriteCallback(const EventCallback &cb) { writeCallback_ = cb; }
     void setErrorCallback(const EventCallback &cb) { errorCallback_ = cb; }
+    void setCloseCallback(const EventCallback &cb) { closeCallback_ = cb; }
 
     void setRevents(int revt) { revents_ = revt; }
     void enableReading() { events_ |= kReadEvent;update(); }
@@ -45,10 +46,13 @@ private:
     int events_;
     int revents_;
     int index_;
+    
+    bool eventHandling_;
 
     EventCallback readCallback_;
     EventCallback writeCallback_;
     EventCallback errorCallback_;
+    EventCallback closeCallback_;
 };
 
 
