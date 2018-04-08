@@ -60,3 +60,9 @@ void TcpConnection::connectDestroyed()
     }
     channel_->remove();
 }
+
+
+void TcpConnection::send(const std::string& message)
+{
+    
+}

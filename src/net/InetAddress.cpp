@@ -5,7 +5,7 @@
 #include <memory.h>
 #include <arpa/inet.h>
 #include "InetAddress.h"
-
+#include "SocketsOps.h"
 
 InetAddress::InetAddress(uint16_t port) {
     bzero(&addr_, sizeof(addr_));
@@ -21,4 +21,11 @@ InetAddress::InetAddress(std::string &ip, uint16_t port) {
         printf("inet_pton error.\n");
     }
     addr_.sin_port = htobe16(port);
+}
+
+InetAddress::toIpPort() 
+{ 
+    char buf[64] = "";
+    sockets::toIpPort(buf, sizeof buf, addr_);
+    return buf;
 }

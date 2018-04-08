@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <functional>
+#include <string>
 #include "InetAddress.h" 
 #include "Socket.h"
 #include "Channel.h"
@@ -14,6 +15,7 @@ public:
     typedef std::function<void()> ConnectionCallback;
     typedef std::function<void()> MessageCallback;
     typedef std::function<void()> CloseCallback;
+    typedef std::function<void()> WriteCompleteCallback;
 
     TcpConnection(EventLoop* loop,
                   const string& nameArg,
@@ -24,12 +26,20 @@ public:
     ~TcpConnection();
 
 public:
+    void setConnectionCallback(const ConnectionCallback& cb) { ConnectionCallback_ = cb; }
+    void setMessageCallback(const MessageCallback& mb) { messageCallback_ = mb; }
+    void setWriteCompleteCallback(const WriteCompleteCallback& wb) { writeCompleteCallback_ = wb; }
     void setCloseCallback(const closeCallback_& cb) { closeCallback_ = cb; }
+
     void connectEstablished();
     void connectDestroyed();
 
+    void send(const std::string& message);
+
+    std::string name() { return name_; }
+
 private:
-    enum StateE { kConnecting, kConnected, kDisconnected, };
+    enum StateE { kConnecting, kConnected, kDisconnected, kDisconnecting };
 
     void setState(StateE s) { state_ = s; }
     void handleRead();
@@ -47,6 +57,7 @@ private:
 
     ConnectionCallback connectionCallback_;
     MessageCallback messageCallback_;
+    WriteCompleteCallback writeCompleteCallback_;
     Closecallback closeCallback_;
 
     StateE state_;

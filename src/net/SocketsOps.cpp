@@ -6,12 +6,15 @@
 
 #include <sys/socket.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <stdint.h>
+#include <endian.h>
 
 using namespace saber;
-
 
 typedef struct sockaddr SA;
 
@@ -53,6 +56,25 @@ int sockets::accept(int sockfd, struct sockaddr_in *addr) {
         printf("error:accept\n");
     }
     return connfd;
+}
+
+struct sockaddr_in getLocalAddr(int sockfd) {
+    struct sockaddr_in localaddr;
+    bzero(&localaddr, sizeof localaddr);
+    socklen_t addrlen = static_cast<socklen_t>(sizeof localaddr);
+    ::getsockname(sockfd, sockaddr_cast(&localaddr), &addrlen);
+    return localaddr;
+}
+
+void toIpPort(char* buf, size_t size, const struct sockaddr_in* addr) {
+    toIp(buf, size, addr);
+    size_t end = ::strlen(buf);
+    uint16_t port = be16toh(addr->sin_port);
+    snprintf(buf + end, size - end, ":%u", port);
+}
+
+void toIp(char* buf, size_t size, const struct sockaddr_in* addr) {
+    ::inet_ntop(AF_INET, &addr->sin_addr, buf, static_cast<socklen_t>(size));
 }
 
 int sockets::connect(int sockfd, const struct sockaddr_in *addr) {

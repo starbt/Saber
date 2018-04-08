@@ -1,7 +1,3 @@
-//
-// Created by xcv on 17-12-15.
-//
-
 #ifndef SABER_THREADPOOL_H
 #define SABER_THREADPOOL_H
 
