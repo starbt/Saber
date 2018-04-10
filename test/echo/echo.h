@@ -1,7 +1,7 @@
 #ifndef SABER_TEST_ECHO_H
 #define SABER_TEST_ECHO_H
 
-#include "../../TcpServer.h"
+#include "../../src/net/TcpServer.h"
 
 class EchoServer
 {
