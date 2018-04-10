@@ -18,11 +18,11 @@ using namespace saber;
 
 typedef struct sockaddr SA;
 
-const struct sockaddr *sockaddr_cast(const struct sockaddr_in *addr) {
+const struct sockaddr *sockets::sockaddr_cast(const struct sockaddr_in *addr) {
     return reinterpret_cast<const struct sockaddr*>(addr);
 }
 
-const struct sockaddr_in *sockaddr_in_case(const struct sockaddr *addr) {
+const struct sockaddr_in *sockets::sockaddr_in_case(const struct sockaddr *addr) {
     return reinterpret_cast<const struct sockaddr_in*>(addr);
 }
 
@@ -58,11 +58,11 @@ int sockets::accept(int sockfd, struct sockaddr_in *addr) {
     return connfd;
 }
 
-struct sockaddr_in getLocalAddr(int sockfd) {
+struct sockaddr_in sockets::getLocalAddr(int sockfd) {
     struct sockaddr_in localaddr;
     bzero(&localaddr, sizeof localaddr);
     socklen_t addrlen = static_cast<socklen_t>(sizeof localaddr);
-    ::getsockname(sockfd, sockaddr_cast(&localaddr), &addrlen);
+    ::getsockname(sockfd, const_cast<struct sockaddr*>(sockaddr_cast(&localaddr)), &addrlen);
     return localaddr;
 }
 
@@ -79,7 +79,7 @@ void sockets::toIpPort(char* buf, size_t size, const struct sockaddr_in* addr) {
 
 
 int sockets::connect(int sockfd, const struct sockaddr_in *addr) {
-    return ::connect(sockfd, sockaddr_cast(addr), sizeof(*addr));
+    return ::connect(sockfd, const_cast<struct sockaddr*>(sockaddr_cast(addr)), sizeof(*addr));
 }
 
 ssize_t sockets::read(int sockfd, void *buf, size_t count) {
