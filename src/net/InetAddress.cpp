@@ -3,6 +3,7 @@
 //
 
 #include <memory.h>
+#include <string>
 #include <arpa/inet.h>
 #include "InetAddress.h"
 #include "SocketsOps.h"
@@ -23,7 +24,7 @@ InetAddress::InetAddress(std::string &ip, uint16_t port) {
     addr_.sin_port = htobe16(port);
 }
 
-InetAddress::toIpPort() 
+std::string InetAddress::toIpPort() 
 { 
     char buf[64] = "";
     sockets::toIpPort(buf, sizeof buf, addr_);

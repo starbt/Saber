@@ -18,7 +18,7 @@ public:
 
     const struct sockaddr_in* getSockAddr() const { return &addr_; }
     void setSockAddr(const struct sockaddr_in &addr) { addr_ = addr; }
-    void toIpPort();
+    std::string toIpPort();
 
 private:
     struct sockaddr_in addr_;
