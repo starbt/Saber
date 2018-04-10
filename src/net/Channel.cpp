@@ -29,7 +29,7 @@ void Channel::remove() {
     loop_->removeChannel(this);
 }
 
-void tie(const std::shared_ptr<TcpConnection>& tcpConnection)
+void Channel::tie(const std::shared_ptr<TcpConnection>& tcpConnection)
 {
     tie_ = tcpConnection;
     tied_ = true;

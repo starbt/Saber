@@ -27,7 +27,7 @@ public:
     void enableReading() { events_ |= kReadEvent;update(); }
     void enableWriting() { events_ |= kWriteEvent;update(); }
     void disableAll() { events_ = kNoneEvent;update(); }
-    void disableWriting { events_ &= ~kWriteEvent;update(); }
+    void disableWriting() { events_ &= ~kWriteEvent; update(); }
 
     int fd() { return this->fd_; }
     int events() { return this->events_; }

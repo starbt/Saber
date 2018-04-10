@@ -13,17 +13,17 @@ public:
     Buffer(size_t initialSize = kInitialSize)
       : buffer_(kInitialSize),
         readerIndex_(kCheapPrepend),
-        writeIndex_(kCheapPrepend) 
+        writerIndex_(kCheapPrepend) 
 { }
 
     ssize_t readFd(int fd, int *savedErrno);
 
 public:
     size_t readableBytes() 
-    { return writeIndex_ - readerIndex_; }
+    { return writerIndex_ - readerIndex_; }
 
     size_t writableBytes() 
-    { return buffer_.size() - writeIndex_; }
+    { return buffer_.size() - writerIndex_; }
 
     size_t prependableBytes()
     { return readerIndex_; }
