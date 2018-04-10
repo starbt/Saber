@@ -29,6 +29,6 @@ InetAddress::InetAddress(std::string &ip, uint16_t port) {
 std::string InetAddress::toIpPort() 
 { 
     char buf[64] = "";
-    sockets::toIpPort(buf, sizeof buf, addr_);
+    sockets::toIpPort(buf, sizeof buf, &addr_);
     return buf;
 }

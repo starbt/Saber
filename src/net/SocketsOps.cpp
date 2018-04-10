@@ -18,7 +18,7 @@ using namespace saber;
 
 typedef struct sockaddr SA;
 
-const struct sockaddr *sockets::sockaddr_cast(const struct sockaddr_in *addr) {
+const struct sockaddr *sockaddr_cast(const struct sockaddr_in *addr) {
     return reinterpret_cast<const struct sockaddr*>(addr);
 }
 
@@ -66,16 +66,17 @@ struct sockaddr_in getLocalAddr(int sockfd) {
     return localaddr;
 }
 
-void toIpPort(char* buf, size_t size, const struct sockaddr_in* addr) {
+void sockets::toIp(char* buf, size_t size, const struct sockaddr_in* addr) {
+    ::inet_ntop(AF_INET, &addr->sin_addr, buf, static_cast<socklen_t>(size));
+}
+
+void sockets::toIpPort(char* buf, size_t size, const struct sockaddr_in* addr) {
     toIp(buf, size, addr);
     size_t end = ::strlen(buf);
     uint16_t port = be16toh(addr->sin_port);
     snprintf(buf + end, size - end, ":%u", port);
 }
 
-void toIp(char* buf, size_t size, const struct sockaddr_in* addr) {
-    ::inet_ntop(AF_INET, &addr->sin_addr, buf, static_cast<socklen_t>(size));
-}
 
 int sockets::connect(int sockfd, const struct sockaddr_in *addr) {
     return ::connect(sockfd, sockaddr_cast(addr), sizeof(*addr));
