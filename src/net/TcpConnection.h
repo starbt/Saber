@@ -4,6 +4,7 @@
 #include <memory>
 #include <functional>
 #include <string>
+#include "Buffer.h"
 #include "InetAddress.h" 
 #include "Socket.h"
 #include "Channel.h"
@@ -12,11 +13,8 @@ class EventLoop;
 
 class TcpConnection : public std::enable_shared_from_this<TcpConnection>{
 public:
-    typedef std::function<void()> ConnectionCallback;
-    typedef std::function<void()> MessageCallback;
-    typedef std::function<void()> CloseCallback;
-    typedef std::function<void()> WriteCompleteCallback;
-
+    typedef std::function<void()> Callback;
+    
     TcpConnection(EventLoop* loop,
                   const string& nameArg,
                   int sockfd,
@@ -26,15 +24,18 @@ public:
     ~TcpConnection();
 
 public:
-    void setConnectionCallback(const ConnectionCallback& cb) { ConnectionCallback_ = cb; }
-    void setMessageCallback(const MessageCallback& mb) { messageCallback_ = mb; }
-    void setWriteCompleteCallback(const WriteCompleteCallback& wb) { writeCompleteCallback_ = wb; }
-    void setCloseCallback(const closeCallback_& cb) { closeCallback_ = cb; }
+    void setConnectionCallback(const Callback& cb) { ConnectionCallback_ = cb; }
+    void setMessageCallback(const Callback& cb) { messageCallback_ = mb; }
+    void setWriteCompleteCallback(const Callback& cb) { writeCompleteCallback_ = wb; }
+    void setCloseCallback(const Callback_& cb) { closeCallback_ = cb; }
 
     void connectEstablished();
     void connectDestroyed();
 
+
     void send(const std::string& message);
+    void send(Buffer *buf);
+    void send(const void* data, size_t len);
 
     std::string name() { return name_; }
 
@@ -47,6 +48,8 @@ private:
     void handleClose();
     void handleError();
 
+    void shutdown();
+
     std::string name_;
     bool reading_;
     std::unique_ptr<Socket> socket_;
@@ -55,10 +58,14 @@ private:
     InetAddress peerAddr_;
     EventLoop* loop_;
 
-    ConnectionCallback connectionCallback_;
-    MessageCallback messageCallback_;
-    WriteCompleteCallback writeCompleteCallback_;
-    Closecallback closeCallback_;
+    Callback connectionCallback_;
+    Callback messageCallback_;
+    Callback writeCompleteCallback_;
+    callback closeCallback_;
+    
+    Buffer inputBuffer_;
+    Buffer outputBuffer_;
+
 
     StateE state_;
 };

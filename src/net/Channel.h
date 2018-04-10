@@ -2,6 +2,8 @@
 #define SABER_CHANNEL_H
 
 #include <functional>
+#include <memory>
+#include "TcpConnection.h"
 
 class EventLoop;
 
@@ -25,11 +27,15 @@ public:
     void enableReading() { events_ |= kReadEvent;update(); }
     void enableWriting() { events_ |= kWriteEvent;update(); }
     void disableAll() { events_ = kNoneEvent;update(); }
+    void disableWriting { events_ &= ~kWriteEvent;update(); }
 
     int fd() { return this->fd_; }
     int events() { return this->events_; }
     bool isNoneEvent() { return events_ == kNoneEvent; }
+    bool isWriting() { return events_ & kWriteEvent; }
+    bool isReading() { return events_ & kReadEvent; }
 
+    void tie(const std::shared_ptr<TcpConnection>& tcpConnection);
     void update();
     void remove();
 
@@ -48,6 +54,8 @@ private:
     int index_;
     
     bool eventHandling_;
+    std::weak_ptr<TcpConnection> tie_;
+    bool tied_;
 
     EventCallback readCallback_;
     EventCallback writeCallback_;

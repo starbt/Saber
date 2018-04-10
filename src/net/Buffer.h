@@ -30,6 +30,31 @@ public:
 
     void append(char* data, size_t len);
 
+    const char* peek() 
+    { return begin() + readerIndex_; }
+    
+
+    std::string retrieveAllAsString() 
+    {
+        int len = readableBytes();
+        std::string result(peek(), len);
+        retrieve(len);
+        return result;
+    }
+
+    void retrieve(size_t len) 
+    {
+        if (len < readableBytes()) 
+        {
+            readerIndex_ += len;
+        }
+        else
+        {
+            readerIndex_ = kCheapPrepend;
+            writerIndex_ = kCheapPrepend;
+        }
+    }
+
 private:
     char* begin() 
     {

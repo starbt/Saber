@@ -14,6 +14,7 @@
 Channel::Channel(EventLoop *loop, int fd)
   : loop_(loop),
     fd_(fd),
+    tied_(false),
     events_(0),
     revents_(0),
     index_(-1),
@@ -26,6 +27,12 @@ void Channel::update() {
 
 void Channel::remove() {
     loop_->removeChannel(this);
+}
+
+void tie(const std::shared_ptr<TcpConnection>& tcpConnection)
+{
+    tie_ = tcpConnection;
+    tied_ = true;
 }
 
 void Channel::handleEvent() {

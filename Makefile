@@ -36,7 +36,23 @@ TEST_ACCEPTOR_SRC=$(TEST_DIR)/TestAcceptor.cpp \
          
 TEST_ACCEPTOR_OBJECTS+=$(addsuffix .o,$(basename $(TEST_ACCEPTOR_SRC)))
 
-all:$(TARGET) $(TEST_DIR)/test_accept 
+
+TEST_ECHO_SRC=$(TEST_DIR)/echo/main.cpp \
+              $(TEST_DIR)/echo/echo.cpp \
+        $(SRC_DIR)/base/Timestamp.cpp \
+        $(SRC_DIR)/net/Channel.cpp \
+        $(SRC_DIR)/net/Acceptor.cpp \
+        $(SRC_DIR)/net/EventLoop.cpp \
+	$(SRC_DIR)/net/InetAddress.cpp \
+	$(SRC_DIR)/net/Poller.cpp \
+	$(SRC_DIR)/net/Socket.cpp \
+	$(SRC_DIR)/net/SocketsOps.cpp \
+	$(SRC_DIR)/net/Timer.cpp \
+	$(SRC_DIR)/net/TimerQueue.cpp
+         
+TEST_ECHO_OBJECTS+=$(addsuffix .o,$(basename $(TEST_ECHO_SRC)))
+
+all:$(TARGET) $(TEST_DIR)/test_accept $(TEST_DIR)/echo/test_echo
 
 $(TARGET) : $(OBJECTS)
 	@echo "Linking $@"
@@ -46,6 +62,10 @@ $(TEST_DIR)/test_accept : $(TEST_ACCEPTOR_OBJECTS)
 	@echo "Linking $@"
 	$(CXX) $(TEST_ACCEPTOR_OBJECTS) -o $@
 
+$(TEST_DIR)/echo/test_echo : $(TEST_ECHO_OBJECTS) 
+	@echo "Linking $@"
+	$(CXX) $(TEST_ECHO_OBJECTS) -o $@
+ 
 %.o:%.cpp
 	@echo "compling $@"
 	@$(CXX) -c $(CXXFLAGS) $< -o $@
@@ -55,6 +75,9 @@ clean:
 	@rm -rvf $(OBJECTS) $(TARGET) 
 	@echo "Cleaning test_accept"
 	@rm -rvf $(TEST_ACCEPTOR_OBJECTS) $(TEST_DIR)/test_accept
+
+	@echo "Cleaning test_echo"
+	@rm -rvf $(TEST_ECHO_OBJECTS) $(TEST_DIR)/echo/test_echo
 
 
 

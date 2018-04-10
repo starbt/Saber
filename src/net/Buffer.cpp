@@ -29,6 +29,7 @@ ssize_t Buffer::readFd(int fd, int *savedErrno)
         writerIndex_ = buffer_.size();
         append(extrabuf, n - writable);
     }
+    return n;
 }
 
 void Buffer::append(char* data, size_t len)
