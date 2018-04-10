@@ -11,8 +11,8 @@ public:
     void start();
 
 private:
-    void onConnection(const TcpConnectionPtr& conn);
-    void onMessage(const TcpConnectionPtr& conn, Buffer* buf);
+    void onConnection(const std::shared_ptr<TcpConnection>& conn);
+    void onMessage(const std::shared_ptr<TcpConnection>& conn, Buffer* buf);
     
     TcpServer server_;
 };

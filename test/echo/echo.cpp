@@ -15,13 +15,13 @@ void EchoServer::start()
     server_.start();
 }
 
-void EchoServer::onConnection(const TcpConnectionPtr& conn)
+void EchoServer::onConnection(const std::shared_ptr<TcpConnection>& conn)
 {
     std::cout << "connetion established." << std::endl;
 
 }
 
-void EchoServer::onMessage(const TcpConnectionPtr& conn, Buffer* buf)
+void EchoServer::onMessage(const std::shared_ptr<TcpConnection>& conn, Buffer* buf)
 {
     std::string msg(buf->retrieveAllAsString());
     conn->send(msg);

@@ -8,6 +8,7 @@
 #include "Acceptor.h"
 #include "InetAddress.h"
 #include "TcpConnection.h"
+#include "../base/Atomic.h"
 
 class EventLoop;
 
@@ -38,8 +39,8 @@ private:
 
 private:
     EventLoop* loop_;
-    const string name_;
-    const string ipPort_;
+    const std::string name_;
+    const std::string ipPort_;
     std::unique_ptr<Acceptor> acceptor_;
     ConnectionCallback connectionCallback_;
     MessageCallback messageCallback_;
