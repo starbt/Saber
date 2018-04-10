@@ -8,7 +8,6 @@
 #include "Acceptor.h"
 #include "InetAddress.h"
 #include "TcpConnection.h"
-#include "../base/Atomic.h"
 
 class EventLoop;
 
@@ -44,7 +43,6 @@ private:
     std::unique_ptr<Acceptor> acceptor_;
     ConnectionCallback connectionCallback_;
     MessageCallback messageCallback_;
-    AtomicInt32 started_;
     int nextConnId_;
     ConnectionMap connections_;
 };

@@ -24,7 +24,7 @@ TcpConnection::TcpConnection(EventLoop* loop,
      localAddr_(localAddr),
      peerAddr_(peerAddr)
 {  
-    channel_->setReadCallback(std::bind(&TcpConnection::handleRead, this, _1));
+    channel_->setReadCallback(std::bind(&TcpConnection::handleRead, this, std::placeholders::_1));
     channel_->setWriteCallback(std::bind(&TcpConnection::handleWrite, this));
     channel_->setCloseCallback(std::bind(&TcpConnection::handleClose, this));
     channel_->setErrorCallback(std::bind(&TcpConnection::handleError, this));
