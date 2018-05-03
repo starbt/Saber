@@ -41,6 +41,7 @@ TEST_ECHO_SRC=$(TEST_DIR)/echo/main.cpp \
               $(TEST_DIR)/echo/echo.cpp \
         $(SRC_DIR)/base/Timestamp.cpp \
         $(SRC_DIR)/net/Channel.cpp \
+	    $(SRC_DIR)/net/Buffer.cpp  \
         $(SRC_DIR)/net/Acceptor.cpp \
         $(SRC_DIR)/net/EventLoop.cpp \
 	$(SRC_DIR)/net/InetAddress.cpp \
@@ -48,7 +49,9 @@ TEST_ECHO_SRC=$(TEST_DIR)/echo/main.cpp \
 	$(SRC_DIR)/net/Socket.cpp \
 	$(SRC_DIR)/net/SocketsOps.cpp \
 	$(SRC_DIR)/net/Timer.cpp \
-	$(SRC_DIR)/net/TimerQueue.cpp
+	$(SRC_DIR)/net/TimerQueue.cpp \
+	$(SRC_DIR)/net/TcpServer.cpp \
+	$(SRC_DIR)/net/TcpConnection.cpp 
          
 TEST_ECHO_OBJECTS+=$(addsuffix .o,$(basename $(TEST_ECHO_SRC)))
 

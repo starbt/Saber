@@ -11,7 +11,7 @@ void newConnection(int sockfd, const InetAddress& peerAddr)
 {
     printf("new connection:");
     ::write(sockfd, "how are yout?\n", 13);
-    saber::sockets::close(sockfd);
+    sockets::close(sockfd);
 }
 
 int main() {

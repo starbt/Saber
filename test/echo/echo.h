@@ -6,7 +6,7 @@
 class EchoServer
 {
 public:
-    EchoServer(EventLoop* loop, const InetAddress& listenAddr);
+    EchoServer(EventLoop* loop, InetAddress& listenAddr);
 
     void start();
 

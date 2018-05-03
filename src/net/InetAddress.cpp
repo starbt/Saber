@@ -8,7 +8,6 @@
 #include "InetAddress.h"
 #include "SocketsOps.h"
 
-using namespace saber;
 
 InetAddress::InetAddress(uint16_t port) {
     bzero(&addr_, sizeof(addr_));

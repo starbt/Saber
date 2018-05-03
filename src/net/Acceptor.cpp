@@ -1,8 +1,6 @@
 #include  "Acceptor.h"
 #include  "SocketsOps.h"
 
-using namespace saber;
-
 Acceptor::Acceptor(EventLoop *loop, const InetAddress& listenAddr)
   : loop_(loop),
     acceptSocket_(sockets::createNonblockingOrDie(AF_INET)),

@@ -8,14 +8,16 @@
 #include "Acceptor.h"
 #include "InetAddress.h"
 #include "TcpConnection.h"
+#include <memory>
 
 class EventLoop;
+class Buffer;
 
 class TcpServer {
 public:
-    typedef std::function<void()> ConnectionCallback; 
-    typedef std::function<void()> MessageCallback; 
     typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
+    typedef std::function<void (const TcpConnectionPtr&)> ConnectionCallback; 
+    typedef std::function<void(const TcpConnectionPtr&, Buffer*)> MessageCallback; 
     typedef std::map<std::string, TcpConnectionPtr> ConnectionMap;
 
     enum Option {
@@ -23,8 +25,8 @@ public:
         kReusePort,
     };
 
-    TcpServer(EventLoop* loop, const InetAddress& listenAddr);
-    ~TcpServer();
+   TcpServer(EventLoop* loop, InetAddress& listenAddr);
+   ~TcpServer();
 
     void start();
 

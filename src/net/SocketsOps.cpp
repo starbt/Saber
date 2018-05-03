@@ -1,7 +1,3 @@
-//
-// Created by xcv on 17-12-13.
-//
-
 #include "SocketsOps.h"
 
 #include <sys/socket.h>
@@ -13,8 +9,6 @@
 #include <errno.h>
 #include <stdint.h>
 #include <endian.h>
-
-using namespace saber;
 
 typedef struct sockaddr SA;
 

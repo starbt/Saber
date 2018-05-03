@@ -7,7 +7,6 @@
 
 #include <arpa/inet.h>
 
-namespace saber{
 namespace sockets
 {
 
@@ -33,7 +32,6 @@ void shutdownWrite(int sockfd);
 const struct sockaddr *sockaddr_cast(const struct sockaddr_in *addr);
 const struct sockaddr_in *sockaddr_in_case(const struct sockaddr *addr);
 
-}
 }
 
 

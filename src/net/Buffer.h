@@ -2,6 +2,8 @@
 #define SABER_BUFFER_H
 
 #include <vector>
+#include <string>
+#include <cstdlib>
 
 class Buffer
 {
@@ -14,7 +16,7 @@ public:
       : buffer_(kInitialSize),
         readerIndex_(kCheapPrepend),
         writerIndex_(kCheapPrepend) 
-{ }
+   { }
 
     ssize_t readFd(int fd, int *savedErrno);
 
@@ -28,7 +30,7 @@ public:
     size_t prependableBytes()
     { return readerIndex_; }
 
-    void append(char* data, size_t len);
+    void append(const char* data, size_t len);
 
     const char* peek() 
     { return begin() + readerIndex_; }
@@ -53,6 +55,12 @@ public:
             readerIndex_ = kCheapPrepend;
             writerIndex_ = kCheapPrepend;
         }
+    }
+
+    void retrievePrepend() 
+    {
+        readerIndex_ = kCheapPrepend;
+        writerIndex_ = kCheapPrepend;
     }
 
 private:

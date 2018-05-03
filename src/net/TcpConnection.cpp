@@ -6,11 +6,12 @@
 #include "Channel.h"
 #include "SocketsOps.h"
 #include "Buffer.h"
+#include <memory>
 
 #include <error.h>
 
 TcpConnection::TcpConnection(EventLoop* loop,
-                  const string& nameArg,
+                  const std::string& nameArg,
                   int sockfd,
                   const InetAddress& localAddr,
                   const InetAddress& peerAddr 
@@ -24,7 +25,7 @@ TcpConnection::TcpConnection(EventLoop* loop,
      localAddr_(localAddr),
      peerAddr_(peerAddr)
 {  
-    channel_->setReadCallback(std::bind(&TcpConnection::handleRead, this, std::placeholders::_1));
+    channel_->setReadCallback(std::bind(&TcpConnection::handleRead, this));
     channel_->setWriteCallback(std::bind(&TcpConnection::handleWrite, this));
     channel_->setCloseCallback(std::bind(&TcpConnection::handleClose, this));
     channel_->setErrorCallback(std::bind(&TcpConnection::handleError, this));
@@ -40,15 +41,6 @@ void TcpConnection::connectEstablished() {
     connectionCallback_(shared_from_this());
 }
 
-void TcpConnection::connectDestroyed() {
-    if (state_ == kConnected) {
-        setState(kDisconnected);
-        channel_->disableAll();
-
-        connectionCallback_(shared_from_this());
-    }
-    channel_->remove();
-}
         
 void TcpConnection::handleRead() {
     int saveError = 0;
@@ -69,18 +61,13 @@ void TcpConnection::handleWrite() {
                                    outputBuffer_.peek(), 
                                    outputBuffer_.readableBytes());
         if (n > 0) {
-            if (n < outputBuffer_.readableBytes()) {
-                readerIndex_ += n;
-            } else {
-               readerIndex_ = Buffer::kCheapPrepend;
-               writeIndex_ =  Buffer::kCheapPrepend; 
-            }
+            outputBuffer_.retrieve(n);
 
             if(outputBuffer_.readableBytes() == 0) 
             {
                 channel_->disableWriting();
                 if (writeCompleteCallback_) {
-                    writeCompleteCallback_(std::shared_from_this());
+                    writeCompleteCallback_(shared_from_this());
                 }
                 if (state_ == kDisconnecting) 
                 {
@@ -95,9 +82,10 @@ void TcpConnection::handleClose()
 {
     setState(kDisconnected);
     channel_->disableAll();
-
-    ConnectionCallback(shared_from_this())
-    closeCallback_(shared_from_this());
+    
+    TcpConnectionPtr guardThis(shared_from_this());
+    connectionCallback_(guardThis);
+    closeCallback_(guardThis);
 }
 
 void TcpConnection::handleError()
@@ -116,10 +104,10 @@ void TcpConnection::connectDestroyed()
     channel_->remove();
 }
 
+
 void TcpConnection::send(Buffer* buf) {
     send(buf->peek(), buf->readableBytes());
-    buf->readerIndex_ = kCheapPrepend;
-    buf->writerIndex_ = kCheapPrepend;
+    buf->retrievePrepend();
 }
 
 void TcpConnection::send(const std::string& message)
@@ -137,7 +125,7 @@ void TcpConnection::send(const void* data, size_t len)
         if (nwrote >=0 ) {
             remaining = len - nwrote;
             if (remaining == 0 && writeCompleteCallback_) {
-                writeCompleteCallback_(std::shared_from_this());
+                writeCompleteCallback_(shared_from_this());
             }
         } else {
             nwrote = 0;
@@ -151,7 +139,7 @@ void TcpConnection::send(const void* data, size_t len)
 
     if (!faultError && remaining > 0) {
         outputBuffer_.append(static_cast<const char*>(data) + nwrote, remaining);
-        if (!channel_->isWriting) {
+        if (!channel_->isWriting()) {
             channel_->enableWriting();
         }
     }

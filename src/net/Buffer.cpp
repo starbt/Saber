@@ -1,5 +1,6 @@
 #include "Buffer.h"
 #include <sys/uio.h>
+#include <error.h>
 
 #include "SocketsOps.h" 
 
@@ -32,11 +33,11 @@ ssize_t Buffer::readFd(int fd, int *savedErrno)
     return n;
 }
 
-void Buffer::append(char* data, size_t len)
+void Buffer::append(const char* data, size_t len)
 {
     if (writableBytes() < len) 
     {
-        if (writableBytes() + prependableBytes < len + kCheapPrepend)
+        if (writableBytes() + prependableBytes() < len + kCheapPrepend)
         {
             buffer_.resize(writerIndex_ + len);
         }

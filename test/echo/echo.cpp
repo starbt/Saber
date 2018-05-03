@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 
-EchoServer::EchoServer(EventLoop* loop, const InetAddress& listenAddr) 
+EchoServer::EchoServer(EventLoop* loop, InetAddress& listenAddr) 
   : server_(loop, listenAddr)
 {
     server_.setConnectionCallback(std::bind(&EchoServer::onConnection, this, std::placeholders::_1));

@@ -4,8 +4,6 @@
 #include "Socket.h"
 #include "SocketsOps.h"
 
-using namespace saber;
-
 Socket::~Socket() {
     sockets::close(sockfd_);
 }
