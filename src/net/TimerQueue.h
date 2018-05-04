@@ -22,19 +22,27 @@ public:
     typedef std::pair<Timer*, int64_t> ActiveTimer;
     typedef std::set<ActiveTimer> ActiveTimerSet;
 
+public:
     TimerQueue(EventLoop *loop);
     ~TimerQueue();
 
     TimerId addTimer(const TimerCallback &cb,
                       Timestamp when,
                        double interval);
-    void addTimerInLoop(Timer *timer);
+    void cancelTimer(TimerId timerId);
 
     void handleRead();
     std::vector<Entry> getExpired(Timestamp now);
     void reset(const std::vector<Entry> &expired, Timestamp now);
 
-    bool insert(Timer *timer);
+
+private:
+   int createTimerfd();
+   void readTimerfd(int timefd, Timestamp now);
+   struct timespec howMuchTimeFromNow(Timestamp when); 
+   void resetTimerfd(int timerfd, Timestamp expiration); 
+
+   bool insert(Timer *timer);
 
     EventLoop *loop_;
     const int timerfd_;

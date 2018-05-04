@@ -1,7 +1,3 @@
-//
-// Created by xcv on 17-12-18.
-//
-
 #include <sys/time.h>
 #include <cstddef>
 #include "Timestamp.h"

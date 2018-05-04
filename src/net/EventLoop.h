@@ -26,7 +26,7 @@ public:
     void handleRead();
 
     //一组定时回调函数
-    TimerId runAt(const Timer &time, const TimerCallback &cb);
+    TimerId runAt(const Timestamp &time, const TimerCallback &cb);
     TimerId runAfter(double delay, const TimerCallback &cb);
     TimerId runEvery(double interval, const TimerCallback &cb);
 
