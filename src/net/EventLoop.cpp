@@ -8,16 +8,6 @@
 
 const int kPollTimeMs = 10 * 1000;
 
-//help function
-/* int createEventfd() {
-    int evtfd = ::eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
-    if (evtfd < 0) {
-        printf("error:createEventfd().\n");
-        abort();
-    }
-    return evtfd;
-} */
-
 EventLoop::EventLoop()
   : looping_(false),
     quit_(false),

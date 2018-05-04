@@ -1,7 +1,3 @@
-//
-// Created by xcv on 17-12-20.
-//
-
 #ifndef SABER_ATOMIC_H
 #define SABER_ATOMIC_H
 

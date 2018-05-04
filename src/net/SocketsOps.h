@@ -1,7 +1,3 @@
-//
-// Created by xcv on 17-12-13.
-//
-
 #ifndef SABER_SOCKETSOPS_H
 #define SABER_SOCKETSOPS_H
 

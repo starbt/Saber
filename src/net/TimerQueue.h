@@ -1,7 +1,3 @@
-//
-// Created by xcv on 17-12-20.
-//
-
 #ifndef SABER_TIMERQUEUE_H
 #define SABER_TIMERQUEUE_H
 

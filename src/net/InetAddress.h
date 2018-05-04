@@ -1,6 +1,3 @@
-//
-// Created by xcv on 17-12-13.
-//
 
 #ifndef SABER_INETADDRESS_H
 #define SABER_INETADDRESS_H

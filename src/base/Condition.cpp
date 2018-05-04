@@ -1,7 +1,3 @@
-//
-// Created by xcv on 17-12-14.
-//
-
 #include <cstdio>
 #include <cstdlib>
 #include "Condition.h"

@@ -1,10 +1,5 @@
-//
-// Created by xcv on 17-12-20.
-//
-
 #ifndef SABER_TIMER_H
 #define SABER_TIMER_H
-
 
 #include <functional>
 #include "../base/Timestamp.h"

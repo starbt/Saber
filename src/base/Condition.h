@@ -1,7 +1,3 @@
-//
-// Created by xcv on 17-12-14.
-//
-
 #ifndef SABER_CONDITION_H
 #define SABER_CONDITION_H
 
