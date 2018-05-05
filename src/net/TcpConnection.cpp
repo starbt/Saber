@@ -115,6 +115,7 @@ void TcpConnection::send(const std::string& message)
     send(message.c_str(), message.size());
 }
 
+
 void TcpConnection::send(const void* data, size_t len)
 {
     ssize_t nwrote = 0;

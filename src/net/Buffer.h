@@ -5,6 +5,8 @@
 #include <string>
 #include <cstdlib>
 
+#include <algorithm>
+
 class Buffer
 {
 public:
@@ -31,8 +33,13 @@ public:
     { return readerIndex_; }
 
     void append(const char* data, size_t len);
+    
+    void append(const std::string& str) 
+    {
+        append(str.c_str(), str.size());
+    }
 
-    const char* peek() 
+    const char* peek() const 
     { return begin() + readerIndex_; }
     
 
@@ -55,6 +62,11 @@ public:
             readerIndex_ = kCheapPrepend;
             writerIndex_ = kCheapPrepend;
         }
+    } 
+
+    void retrieveUntil(const char* end)
+    {
+        retrieve(end - peek());
     }
 
     void retrievePrepend() 
@@ -63,15 +75,40 @@ public:
         writerIndex_ = kCheapPrepend;
     }
 
+    char* beginWrite() 
+    {
+        return begin() + writerIndex_;
+    }
+
+    const char* beginWrite() const
+    {
+        return begin() + writerIndex_;
+    }
+
+public:
+    const char* findCRLF() const 
+    {
+       const char* crlf = std::search(peek(), beginWrite(), kCRLF, kCRLF + 2); 
+       return crlf == beginWrite() ? NULL : crlf;
+    }
+    
+
 private:
     char* begin() 
     {
         return &(*buffer_.begin());
     } 
 
+    const char* begin() const 
+    {
+        return &(*buffer_.begin());
+    }
+
     std::vector<char> buffer_;
     size_t readerIndex_;
     size_t writerIndex_;
+
+    static const char kCRLF[];
 };
 
 #endif

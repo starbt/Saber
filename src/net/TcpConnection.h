@@ -7,6 +7,7 @@
 #include "Buffer.h"
 #include "InetAddress.h" 
 #include "Socket.h"
+#include "http/HttpContext.h"
 
 class EventLoop; 
 class Channel;
@@ -36,12 +37,23 @@ public:
     void connectEstablished();
     void connectDestroyed();
 
+    bool connected() const { return state_ == kConnected; }
+
 
     void send(const std::string& message);
     void send(Buffer *buf);
     void send(const void* data, size_t len);
 
+    void setContext(std::shared_ptr<HttpContext> context) { 
+        contextPtr_ = context;
+    } 
+    std::shared_ptr<HttpContext> getContext() {
+        return contextPtr_;
+    }
+
     std::string name() { return name_; }
+
+    void shutdown();
 
 private:
     enum StateE { kConnecting, kConnected, kDisconnected, kDisconnecting };
@@ -52,7 +64,6 @@ private:
     void handleClose();
     void handleError();
 
-    void shutdown();
 
     std::string name_;
     bool reading_;
@@ -69,8 +80,8 @@ private:
     
     Buffer inputBuffer_;
     Buffer outputBuffer_;
-
-
+    
+    std::shared_ptr<HttpContext> contextPtr_;
     StateE state_;
 };
 

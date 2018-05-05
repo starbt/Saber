@@ -80,7 +80,29 @@ TEST_TIMEQUEUE_SRC=$(TEST_DIR)/TestTimerQueue.cpp \
          
 TEST_TIMEQUEUE_OBJECTS+=$(addsuffix .o,$(basename $(TEST_TIMEQUEUE_SRC))) 
 
-all:$(TARGET) $(TEST_DIR)/test_accept $(TEST_DIR)/echo/test_echo $(TEST_DIR)/test_timefd $(TEST_DIR)/test_timequeue  
+#test http_server 
+TEST_HTTPSERVER_SRC=$(TEST_DIR)/TestHttpServer.cpp \
+        $(SRC_DIR)/base/Timestamp.cpp \
+        $(SRC_DIR)/net/Channel.cpp \
+	    $(SRC_DIR)/net/Buffer.cpp   \
+        $(SRC_DIR)/net/Acceptor.cpp \
+        $(SRC_DIR)/net/EventLoop.cpp \
+	$(SRC_DIR)/net/InetAddress.cpp \
+	$(SRC_DIR)/net/Poller.cpp \
+	$(SRC_DIR)/net/Socket.cpp \
+	$(SRC_DIR)/net/SocketsOps.cpp \
+	$(SRC_DIR)/net/Timer.cpp \
+	$(SRC_DIR)/net/TimerQueue.cpp \
+	$(SRC_DIR)/net/TcpServer.cpp \
+	$(SRC_DIR)/net/TcpConnection.cpp \
+	$(SRC_DIR)/net/http/HttpContext.cpp \
+	$(SRC_DIR)/net/http/HttpResponse.cpp \
+	$(SRC_DIR)/net/http/HttpServer.cpp \
+
+TEST_HTTPSERVER_OBJECTS+=$(addsuffix .o,$(basename $(TEST_HTTPSERVER_SRC))) 
+
+all:$(TARGET) $(TEST_DIR)/test_accept $(TEST_DIR)/echo/test_echo \
+    $(TEST_DIR)/test_timefd $(TEST_DIR)/test_timequeue $(TEST_DIR)/test_httpserver   
 
 $(TARGET) : $(OBJECTS)
 	@echo "Linking $@"
@@ -101,6 +123,10 @@ $(TEST_DIR)/test_timefd : $(TEST_TIMEFD_OBJECTS)
 $(TEST_DIR)/test_timequeue : $(TEST_TIMEQUEUE_OBJECTS) 
 	@echo "Linking $@"
 	$(CXX) $(TEST_TIMEQUEUE_OBJECTS)-o $@
+
+$(TEST_DIR)/test_httpserver : $(TEST_HTTPSERVER_OBJECTS)
+	@echo "Linking $@"
+	$(CXX) $(TEST_HTTPSERVER_OBJECTS)-o $@
  
 %.o:%.cpp
 	@echo "compling $@"
@@ -120,6 +146,9 @@ clean:
 
 	@echo "Cleaning test_timequeue"
 	@rm -rvf $(TEST_TIMEQUEUE_OBJECTS) $(TEST_DIR)/test_timequeue
+
+	@echo "Cleaning test_httpserver"
+	@rm -rvf $(TEST_HTTPSERVER_OBJECTS) $(TEST_DIR)/test_httpserver
 
 
 

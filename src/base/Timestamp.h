@@ -2,6 +2,7 @@
 #define SABER_TIMESTAMP_H
 
 #include <cstdint>
+#include <algorithm>
 
 class Timestamp {
     friend bool operator< (Timestamp lhs, Timestamp rhs);
@@ -14,6 +15,11 @@ public:
     explicit Timestamp(int64_t microSeconds)
       : microSeconds_(microSeconds)
     { }
+
+    void swap(Timestamp& that) 
+    {
+        std::swap(microSeconds_, that.microSeconds_);
+    }
 
 public:
     static Timestamp now();
