@@ -38,10 +38,6 @@ bool HttpContext::processRequestLine(const char*begin, const char* end)
             }
         }
     }
-    printf("request method:%s,\n",request_.methodString());
-    printf("request path:%s,\n",request_.getPath().c_str());
-    printf("request query:%s,\n",request_.getQuery().c_str());
-    printf("request version:%d,\n",request_.getVersion());
     return succeed;
 }
 

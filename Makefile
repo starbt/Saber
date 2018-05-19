@@ -1,4 +1,4 @@
-TARGET=saber
+TARGET=http_server
 CXX=g++
 SRC_DIR=$(PWD)/src
 TEST_DIR=$(PWD)/test
@@ -10,6 +10,7 @@ CXXFLAGS=-std=c++0x -g
 SOURCES=$(SRC_DIR)/main.cc \
         $(SRC_DIR)/base/Timestamp.cpp \
         $(SRC_DIR)/net/Channel.cpp \
+	    $(SRC_DIR)/net/Buffer.cpp   \
         $(SRC_DIR)/net/Acceptor.cpp \
         $(SRC_DIR)/net/EventLoop.cpp \
 	$(SRC_DIR)/net/InetAddress.cpp \
@@ -17,7 +18,13 @@ SOURCES=$(SRC_DIR)/main.cc \
 	$(SRC_DIR)/net/Socket.cpp \
 	$(SRC_DIR)/net/SocketsOps.cpp \
 	$(SRC_DIR)/net/Timer.cpp \
-	$(SRC_DIR)/net/TimerQueue.cpp
+	$(SRC_DIR)/net/TimerQueue.cpp \
+	$(SRC_DIR)/net/TcpServer.cpp \
+	$(SRC_DIR)/net/TcpConnection.cpp \
+	$(SRC_DIR)/net/http/HttpContext.cpp \
+	$(SRC_DIR)/net/http/HttpResponse.cpp \
+	$(SRC_DIR)/net/http/HttpServer.cpp \
+
 
 OBJECTS+=$(addsuffix .o,$(basename $(SOURCES)))
 
