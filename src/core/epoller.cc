@@ -1,77 +1,119 @@
 #include "epoller.h"
-#include <sys/poll.h>
+#include <sys/epoll.h>
 #include <assert.h>
+#include <unistd.h>
+#include <strings.h>
 #include "fd_channel.h"
 
+const int Epoller::kNew = -1; 
+const int Epoller::kAdded = 1;
+const int Epoller::kDeleted = 2;
+const int Epoller::kInitEventListSize = 16;
 
 Epoller::Epoller(EventLoop *loop)
-  : owner_loop_(loop)
+  : owner_loop_(loop),
+    epollfd_(::epoll_create1(EPOLL_CLOEXEC)),
+    events_(kInitEventListSize)
 { }
 
 Epoller::~Epoller()
-{ }
+{ 
+    ::close(epollfd_);
+}
 
 Timestamp Epoller::Poll(int timeout_ms, ChannelList *active_channels) {
-    int num_events = ::poll(&*pollfds_.begin(), pollfds_.size(), timeout_ms);
+    int numEvents = ::epoll_wait(epollfd_,
+                                &*events_.begin(),
+                                static_cast<int>(events_.size()),
+                                timeout_ms);
+    int savedErrno = errno;
     Timestamp now(Timestamp::Now());
-    if (num_events > 0) {
-        FillActiveChannels(num_events, active_channels);
-    } else if (num_events == 0) {
+    if (numEvents > 0)
+    {
+        FillActiveChannels(numEvents, active_channels);
+        if (static_cast<size_t>(numEvents) == events_.size())
+        {
+         events_.resize(events_.size()*2);
+        }
+    }
+    else if (numEvents == 0)
+    {
         // printf("nothing happend.\n");
-    } else {
-       // printf("error:poll()");
+    }
+    else
+    {
+        // error happens, log uncommon ones
+        if (savedErrno != EINTR)
+        {
+            errno = savedErrno;
+            printf("EPollPoller::poll()");
+        }
     }
     return now;
 }
 
 void Epoller::FillActiveChannels(int num_events, ChannelList *active_channels) {
-    for (auto iter = pollfds_.begin(); iter != pollfds_.end() && num_events > 0; ++iter) {
-        if (iter->revents > 0) {
-            --num_events;
-            ChannelMap::const_iterator ch = channels_.find(iter->fd);
-            FdChannel *channel = ch->second;
-            channel->set_revents(iter->revents);
-            active_channels->push_back(channel);
-        }
+    for (int i = 0; i < num_events; ++i)
+    {
+        FdChannel* channel = static_cast<FdChannel*>(events_[i].data.ptr);
+        channel->set_revents(events_[i].events);
+        active_channels->push_back(channel);
     }
 }
 
 void Epoller::UpdateChannel(FdChannel *channel) {
-    //add a new one
-    if (channel->index() < 0) {
-        struct pollfd pfd;
-        pfd.fd = channel->fd();
-        pfd.events = static_cast<short>(channel->events());
-        pfd.revents = 0;
-
-        pollfds_.push_back(pfd);
-        int idx = static_cast<int>(pollfds_.size()) - 1;
-        channel->set_index(idx);
-        channels_[pfd.fd] = channel;
-    } else {
-        //update existing one.
-        int idx = channel->index();
-        struct pollfd &pfd = pollfds_[idx];
-        pfd.events = static_cast<short>(channel->events());
-        pfd.revents = 0;
-        if (channel->IsNoneEvent()) {
-            pfd.fd = -1;
+    const int index = channel->index();
+    if (index == kNew || index == kDeleted)
+    {
+        // a new one, add with EPOLL_CTL_ADD
+        int fd = channel->fd();
+        if (index == kNew)
+        {
+          channels_[fd] = channel;
+        }
+        else // index == kDeleted
+        {
+            //assert(channels_.find(fd) != channels_.end());
+            //assert(channels_[fd] == channel);
+        }
+        channel->set_index(kAdded);
+        Update(EPOLL_CTL_ADD, channel);
+    }
+    else
+    {
+        // update existing one with EPOLL_CTL_MOD/DEL
+        if (channel->IsNoneEvent())
+        {
+           Update(EPOLL_CTL_DEL, channel);
+           channel->set_index(kDeleted);
+        }
+        else
+        {
+          Update(EPOLL_CTL_MOD, channel);
         }
     }
 }
 
 void Epoller::RemoveChannel(FdChannel *channel) {
-    int idx = channel->index();
-    const struct pollfd &pfd = pollfds_[idx];
-    size_t n = channels_.erase(channel->fd());
-    //从vector中删除一个元素，如果是最后一个，直接删除，
-    // 如果是中间的，与最后一个交换后删除
-    if (static_cast<size_t>(idx) == pollfds_.size() - 1) {
-        pollfds_.pop_back();
-    } else {
-        int endId = pollfds_.back().fd;
-        std::swap(*(pollfds_.begin() + idx), *(pollfds_.end() - 1));
-        channels_[endId]->set_index(idx);
-        pollfds_.pop_back();
+    int fd = channel->fd();
+    int index = channel->index();
+    channels_.erase(fd);
+    if (index == kAdded)
+    {
+        Update(EPOLL_CTL_DEL, channel);
+    }
+    channel->set_index(kNew);
+}
+
+
+void Epoller::Update(int operation, FdChannel* channel) {
+    struct epoll_event event;
+    bzero(&event, sizeof event);
+    event.events = channel->events();
+    event.data.ptr = channel;
+    int fd = channel->fd();
+    if (::epoll_ctl(epollfd_, operation, fd, &event) < 0)
+    {
+        printf("epoll_ctl error.\n");
     }
 }
