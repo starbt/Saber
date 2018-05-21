@@ -1,11 +1,13 @@
 #include "tcp_server.h"
 #include "sockets_util.h"
 #include "buffer.h"
+#include "core/event_loop_thread_pool.h"
 
 TcpServer::TcpServer(EventLoop* loop,InetAddress& listen_addr)
  : loop_(loop),
    ip_port_(listen_addr.ToIpPort()),
    acceptor_(new TcpAcceptor(loop, listen_addr)),
+   thread_pool_(new EventLoopThreadPool(loop, name_)),
    next_conn_id_(1)
 {
     acceptor_->set_newConnectionCallback(std::bind(&TcpServer::NewConnection, this, std::placeholders::_1, std::placeholders::_2));
@@ -23,11 +25,13 @@ TcpServer::~TcpServer()
 
 void TcpServer::Start()
 {
+    thread_pool_->Start();
     acceptor_->Listen();
 }
 
 void TcpServer::NewConnection(int sockfd, const InetAddress& peer_addr)
 {
+    EventLoop* io_loop = thread_pool_->GetNextLoop();
     char buf[64];
     snprintf(buf, sizeof buf, "-%s#%d", ip_port_.c_str(), next_conn_id_);
     ++next_conn_id_;
@@ -35,8 +39,12 @@ void TcpServer::NewConnection(int sockfd, const InetAddress& peer_addr)
 
     InetAddress local_addr(sockets::GetLocalAddr(sockfd));
 
-    TcpConnectionPtr conn(new TcpConnection(loop_, connName, sockfd, local_addr, peer_addr));
-    connections_[connName] = conn;
+    TcpConnectionPtr conn(new TcpConnection(io_loop, connName, sockfd, local_addr, peer_addr));
+    //need mutex lock here
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        connections_[connName] = conn;
+    }
     conn->set_connectionCallback(connectionCallback_);
     conn->set_messageCallback(messageCallback_);
     conn->set_closeCallback(std::bind(&TcpServer::RemoveConnection, this, std::placeholders::_1));
@@ -46,6 +54,14 @@ void TcpServer::NewConnection(int sockfd, const InetAddress& peer_addr)
 
 void TcpServer::RemoveConnection(const TcpConnectionPtr& conn)
 {
-    size_t n = connections_.erase(conn->name());
+    {
+      std::lock_guard<std::mutex> lock(mutex_);
+      size_t n = connections_.erase(conn->name());
+    }
     conn->ConnectDestroyed();
+}
+
+void TcpServer::set_thread_num(int num_threads)
+{
+    thread_pool_->set_thread_num(num_threads);
 }

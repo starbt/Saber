@@ -49,6 +49,7 @@ public:
     }
 
     std::string name() { return name_; }
+    EventLoop* loop() { return loop_; }
 
     void Shutdown();
 

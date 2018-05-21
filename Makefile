@@ -12,6 +12,8 @@ SOURCES=$(SRC_DIR)/main.cc \
         $(SRC_DIR)/core/fd_channel.cc \
         $(SRC_DIR)/core/epoller.cc \
         $(SRC_DIR)/core/event_loop.cc \
+        $(SRC_DIR)/core/event_loop_thread.cc \
+        $(SRC_DIR)/core/event_loop_thread_pool.cc \
         $(SRC_DIR)/core/timer_stamp.cc \
         $(SRC_DIR)/core/timer_manager.cc \
         $(SRC_DIR)/core/timer.cc \
@@ -29,13 +31,14 @@ SOURCES=$(SRC_DIR)/main.cc \
 
 HDR_INCLUDE = $(addprefix -I, $(HDR_DIR))
 OBJECTS+=$(addsuffix .o,$(basename $(SOURCES)))
+
 $(warning $(HDR_INCLUDE))
 
 all:$(TARGET) 
 
 $(TARGET):$(OBJECTS)
 	@echo "Linking $@"
-	$(CXX) $(OBJECTS) -o $@
+	$(CXX) $(OBJECTS) -lpthread -o $@
 
 %.o:%.cc
 	@echo "compling $@"

@@ -22,12 +22,15 @@ public:
         httpCallback_ = cb;
     }
 
+    void set_thread_num(int num_threads);
+
     void Start();
 
 private:
     void OnConnection(const std::shared_ptr<TcpConnection>& conn);
     void OnMessage(const std::shared_ptr<TcpConnection>& conn, Buffer* buf);
-    void OnRequest(const std::shared_ptr<TcpConnection>& conn, const HttpRequest& );
+
+    void ResponseMsg(const std::shared_ptr<TcpConnection>& conn, const HttpRequest& );
 
     TcpServer server_;
     HttpCallback httpCallback_;

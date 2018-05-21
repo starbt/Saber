@@ -5,12 +5,14 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <mutex>
 
 #include "tcp_acceptor.h"
 #include "inet_address.h"
 #include "tcp_connection.h"
 
 class EventLoop;
+class EventLoopThreadPool;
 class Buffer;
 
 class TcpServer {
@@ -30,6 +32,7 @@ public:
 
     void Start();
 
+    void set_thread_num(int num_threads);
     void set_connectionCallback(const ConnectionCallback& cb) { connectionCallback_ = cb; }
     void set_messageCallback(const MessageCallback& mb) { messageCallback_ = mb; }
 
@@ -43,9 +46,13 @@ private:
     const std::string name_;
     const std::string ip_port_;
     std::unique_ptr<TcpAcceptor> acceptor_;
+
+    std::shared_ptr<EventLoopThreadPool> thread_pool_;
     ConnectionCallback connectionCallback_;
     MessageCallback messageCallback_;
     int next_conn_id_;
+
+    std::mutex mutex_;
     ConnectionMap connections_;
 };
 
