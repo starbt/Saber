@@ -8,7 +8,8 @@ TcpServer::TcpServer(EventLoop* loop,InetAddress& listen_addr)
    ip_port_(listen_addr.ToIpPort()),
    acceptor_(new TcpAcceptor(loop, listen_addr)),
    thread_pool_(new EventLoopThreadPool(loop, name_)),
-   next_conn_id_(1)
+   next_conn_id_(1),
+   timer_manager_(new TimerManager(loop))
 {
     acceptor_->set_newConnectionCallback(std::bind(&TcpServer::NewConnection, this, std::placeholders::_1, std::placeholders::_2));
 }
@@ -64,4 +65,22 @@ void TcpServer::RemoveConnection(const TcpConnectionPtr& conn)
 void TcpServer::set_thread_num(int num_threads)
 {
     thread_pool_->set_thread_num(num_threads);
+
+}
+
+void TcpServer::RunAt(const Timestamp &time, const TimerCallback &cb)
+{
+    timer_manager_->AddTimer(cb, time, 0.0);
+}
+
+void TcpServer::RunAfter(double delay, const TimerCallback &cb)
+{
+    Timestamp time(Timestamp::AddTime(Timestamp::Now(), delay));
+    RunAt(time, cb);
+}
+
+void TcpServer::RunEvery(double interval, const TimerCallback &cb)
+{
+    Timestamp time(Timestamp::AddTime(Timestamp::Now(), interval));
+    timer_manager_->AddTimer(cb, time, interval);
 }

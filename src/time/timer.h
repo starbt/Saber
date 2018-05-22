@@ -3,9 +3,6 @@
 
 #include <functional>
 #include "timer_stamp.h"
-#include "atomic.h"
-
-using namespace saber;
 
 class Timer {
 public:
@@ -15,27 +12,23 @@ public:
     : callback_(cb),
       expiration_(when),
       interval_(interval),
-      repeat_(interval > 0.0),
-      sequence_(s_numCreated_.incrementaAndGet())
+      repeat_(interval > 0.0)
     {}
 
     void Run() const { callback_(); }
     void Restart(Timestamp now);
-    static int64_t NumCreated() { return s_numCreated_.get(); }
-
     Timestamp expiration() const { return expiration_; }
     bool repeat() const { return repeat_; }
-    int64_t sequence() const { return sequence_; }
+    void set_circle_num(int circle_num) { circle_num_ = circle_num; }
+    int circle_num() { return circle_num_; }
 
 
 private:
     const TimerCallback callback_;
     Timestamp expiration_;
+    int circle_num_;
     const double interval_;
     const bool repeat_;
-    const int64_t sequence_;
-
-    static AtomicInt64 s_numCreated_;
 };
 
 

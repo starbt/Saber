@@ -2,7 +2,7 @@ TARGET=http_server
 CXX=g++
 PWD=$(shell pwd)
 SRC_DIR=$(PWD)/src
-HDR_DIR = $(SRC_DIR)
+HDR_DIR = $(SRC_DIR) $(PWD)/include
 
 #building flags
 CXXFLAGS=-std=c++0x -g
@@ -14,10 +14,9 @@ SOURCES=$(SRC_DIR)/main.cc \
         $(SRC_DIR)/core/event_loop.cc \
         $(SRC_DIR)/core/event_loop_thread.cc \
         $(SRC_DIR)/core/event_loop_thread_pool.cc \
-        $(SRC_DIR)/core/timer_stamp.cc \
-        $(SRC_DIR)/core/timer_manager.cc \
-        $(SRC_DIR)/core/timer.cc \
-        $(SRC_DIR)/core/timer_id.cc \
+        $(SRC_DIR)/time/timer_stamp.cc \
+        $(SRC_DIR)/time/timer_manager.cc \
+        $(SRC_DIR)/time/timer.cc \
         $(SRC_DIR)/net/tcp_acceptor.cc \
         $(SRC_DIR)/net/tcp_connection.cc \
         $(SRC_DIR)/net/tcp_server.cc \
@@ -25,6 +24,7 @@ SOURCES=$(SRC_DIR)/main.cc \
         $(SRC_DIR)/net/inet_address.cc \
         $(SRC_DIR)/net/socket.cc \
         $(SRC_DIR)/net/sockets_util.cc \
+        $(SRC_DIR)/manage/config_loader.cc \
         $(SRC_DIR)/http/http_context.cc \
         $(SRC_DIR)/http/http_response.cc \
         $(SRC_DIR)/http/http_server.cc 

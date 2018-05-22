@@ -40,6 +40,21 @@ void HttpServer::Start()
 }
 
 
+void HttpServer::RunAt(const Timestamp &time, const TimerCallback &cb)
+{
+    server_.RunAt(time, cb);
+}
+void HttpServer::RunAfter(double delay, const TimerCallback &cb)
+{
+    server_.RunAfter(delay, cb);
+
+}
+void HttpServer::RunEvery(double interval, const TimerCallback &cb)
+{
+    server_.RunEvery(interval, cb);
+}
+
+
 void HttpServer::OnConnection(const std::shared_ptr<TcpConnection>& conn)
 {
     if (conn->Connected())

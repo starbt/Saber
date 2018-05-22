@@ -11,6 +11,8 @@ class HttpServer
 {
 public:
     typedef std::function<void (const HttpRequest&, HttpResponse*)> HttpCallback;
+    typedef std::function<void ()> TimerCallback;
+
     HttpServer(EventLoop* loop,
                InetAddress& listen_addr
                );
@@ -25,6 +27,11 @@ public:
     void set_thread_num(int num_threads);
 
     void Start();
+
+    //一组定时回调函数
+    void RunAt(const Timestamp &time, const TimerCallback &cb);
+    void RunAfter(double delay, const TimerCallback &cb);
+    void RunEvery(double interval, const TimerCallback &cb);
 
 private:
     void OnConnection(const std::shared_ptr<TcpConnection>& conn);

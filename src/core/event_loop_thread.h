@@ -8,6 +8,7 @@
 #include <string>
 
 class EventLoop;
+class TcpServer;
 
 class EventLoopThread
 {

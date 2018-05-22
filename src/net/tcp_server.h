@@ -10,6 +10,7 @@
 #include "tcp_acceptor.h"
 #include "inet_address.h"
 #include "tcp_connection.h"
+#include "time/timer_manager.h"
 
 class EventLoop;
 class EventLoopThreadPool;
@@ -18,6 +19,7 @@ class Buffer;
 class TcpServer {
 public:
     typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
+    typedef std::function<void ()> TimerCallback;
     typedef std::function<void (const TcpConnectionPtr&)> ConnectionCallback; 
     typedef std::function<void(const TcpConnectionPtr&, Buffer*)> MessageCallback; 
     typedef std::map<std::string, TcpConnectionPtr> ConnectionMap;
@@ -35,6 +37,11 @@ public:
     void set_thread_num(int num_threads);
     void set_connectionCallback(const ConnectionCallback& cb) { connectionCallback_ = cb; }
     void set_messageCallback(const MessageCallback& mb) { messageCallback_ = mb; }
+
+    //一组定时回调函数
+    void RunAt(const Timestamp &time, const TimerCallback &cb);
+    void RunAfter(double delay, const TimerCallback &cb);
+    void RunEvery(double interval, const TimerCallback &cb);
 
 
 private:
@@ -54,6 +61,7 @@ private:
 
     std::mutex mutex_;
     ConnectionMap connections_;
+    std::shared_ptr<TimerManager> timer_manager_;
 };
 
 #endif
