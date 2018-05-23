@@ -9,7 +9,8 @@ TcpServer::TcpServer(EventLoop* loop,InetAddress& listen_addr)
    acceptor_(new TcpAcceptor(loop, listen_addr)),
    thread_pool_(new EventLoopThreadPool(loop, name_)),
    next_conn_id_(1),
-   timer_manager_(new TimerManager(loop))
+   timer_manager_(new TimerManager(loop)),
+   sig_manager_(new SignalManager(loop))
 {
     acceptor_->set_newConnectionCallback(std::bind(&TcpServer::NewConnection, this, std::placeholders::_1, std::placeholders::_2));
 }

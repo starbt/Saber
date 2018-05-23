@@ -14,10 +14,9 @@ void defaultHttpCallback(const HttpRequest&, HttpResponse* resp)
     resp->set_close_connection(true);
 }
 
-HttpServer::HttpServer(EventLoop* loop,
-           InetAddress& listen_addr
-           )
-  : server_(loop, listen_addr),
+HttpServer::HttpServer(EventLoop* loop, const std::string& ip, int port)
+  : listen_addr_(ip, static_cast<uint16_t>(port)),
+    server_(loop, listen_addr_),
     httpCallback_(defaultHttpCallback)
 {
     server_.set_connectionCallback(std::bind(&HttpServer::OnConnection, this, std::placeholders::_1));

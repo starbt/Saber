@@ -11,6 +11,7 @@
 #include "inet_address.h"
 #include "tcp_connection.h"
 #include "time/timer_manager.h"
+#include "manage/signal_manager.h"
 
 class EventLoop;
 class EventLoopThreadPool;
@@ -52,6 +53,7 @@ private:
     EventLoop* loop_;
     const std::string name_;
     const std::string ip_port_;
+    
     std::unique_ptr<TcpAcceptor> acceptor_;
 
     std::shared_ptr<EventLoopThreadPool> thread_pool_;
@@ -62,6 +64,7 @@ private:
     std::mutex mutex_;
     ConnectionMap connections_;
     std::shared_ptr<TimerManager> timer_manager_;
+    std::shared_ptr<SignalManager> sig_manager_;
 };
 
 #endif

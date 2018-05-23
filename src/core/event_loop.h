@@ -11,6 +11,12 @@ class FdChannel;
 class EventLoop {
 public:
     typedef std::vector<FdChannel *> ChannelList;
+    //quit state
+    enum QuitState {
+        kSigNone,
+        kSigQuit,
+        kSigReload,
+    };
 
     EventLoop();
     ~EventLoop();
@@ -24,10 +30,13 @@ public:
 
     void HandleRead();
 
+    QuitState state() { return state_; }
+    void set_state(QuitState s) { state_ = s; }
 
 private:
     bool looping_;
-    bool quit_;    /*atomic */
+    bool quit_;    
+    QuitState state_;
     ChannelList active_channels_;
 
     std::shared_ptr<Epoller> poller_;

@@ -13,9 +13,7 @@ public:
     typedef std::function<void (const HttpRequest&, HttpResponse*)> HttpCallback;
     typedef std::function<void ()> TimerCallback;
 
-    HttpServer(EventLoop* loop,
-               InetAddress& listen_addr
-               );
+    HttpServer(EventLoop* loop, const std::string& ip, int port);
 
     ~HttpServer();
 
@@ -39,6 +37,7 @@ private:
 
     void ResponseMsg(const std::shared_ptr<TcpConnection>& conn, const HttpRequest& );
 
+    InetAddress listen_addr_;
     TcpServer server_;
     HttpCallback httpCallback_;
 };

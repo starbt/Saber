@@ -29,7 +29,9 @@ public:
 
 
 private:
-    ConfigLoader() { }
+    ConfigLoader()
+     : config_document_ptr_(NULL)
+     { }
     virtual ~ConfigLoader() = default;
 private:
     static ConfigLoader* config_loader_ptr_;

@@ -25,6 +25,8 @@ SOURCES=$(SRC_DIR)/main.cc \
         $(SRC_DIR)/net/socket.cc \
         $(SRC_DIR)/net/sockets_util.cc \
         $(SRC_DIR)/manage/config_loader.cc \
+        $(SRC_DIR)/manage/signal_manager.cc \
+        $(SRC_DIR)/manage/pid_file_manager.cc \
         $(SRC_DIR)/http/http_context.cc \
         $(SRC_DIR)/http/http_response.cc \
         $(SRC_DIR)/http/http_server.cc 
